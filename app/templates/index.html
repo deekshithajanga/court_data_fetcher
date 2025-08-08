@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Search Case (Delhi High Court)</h5>
+        <form action="/search" method="post">
+          <div class="mb-3">
+            <label class="form-label">Case Type</label>
+            <input name="case_type" class="form-control" placeholder="e.g., W.P.(C)" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Case Number</label>
+            <input name="case_number" class="form-control" placeholder="e.g., 1234" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Filing Year</label>
+            <input name="filing_year" type="number" class="form-control" placeholder="e.g., 2022" required />
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex align-items-center gap-3">
+              <img id="captcha-img" src="" alt="captcha" style="max-height: 64px; border: 1px solid #ddd;" />
+              <button class="btn btn-outline-primary" type="button" id="btn-refresh">Get/Refresh Captcha</button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Enter Captcha</label>
+            <input name="captcha_text" class="form-control" required />
+          </div>
+
+          <input type="hidden" name="session_id" id="session_id" />
+
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">Fetch Case Details</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function refreshCaptcha() {
+  try {
+    const res = await fetch('/captcha/new');
+    if (!res.ok) throw new Error('Failed to request captcha');
+    const data = await res.json();
+    document.getElementById('captcha-img').src = data.image_data_url;
+    document.getElementById('session_id').value = data.session_id;
+  } catch (err) {
+    alert('Failed to load captcha. Try again.');
+  }
+}
+
+document.getElementById('btn-refresh').addEventListener('click', refreshCaptcha);
+</script>
+{% endblock %}
