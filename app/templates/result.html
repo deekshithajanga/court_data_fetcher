@@ -1,0 +1,49 @@
+﻿{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-10 mx-auto">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Case Details</h5>
+
+        {% if error %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% else %}
+          <div class="mb-3">
+            <strong>Petitioner:</strong> {{ data.parties.petitioner or '-' }}<br>
+            <strong>Respondent:</strong> {{ data.parties.respondent or '-' }}<br>
+            <strong>Filing Date:</strong> {{ data.filing_date or '-' }}<br>
+            <strong>Next Hearing Date:</strong> {{ data.next_hearing_date or '-' }}
+          </div>
+
+          <h6>Latest Orders/Judgments</h6>
+          {% if data.orders and data.orders|length > 0 %}
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead><tr><th>Date</th><th>Title</th><th>PDF</th></tr></thead>
+                <tbody>
+                {% for o in data.orders %}
+                  <tr>
+                    <td>{{ o.date }}</td>
+                    <td>{{ o.title }}</td>
+                    <td>
+                      {% if o.pdf_url %}
+                        <a href="/download?url={{ o.pdf_url | urlencode }}" class="btn btn-outline-primary btn-sm">Download</a>
+                      {% else %}-{% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="text-muted">No orders found.</p>
+          {% endif %}
+        {% endif %}
+
+        <a class="btn btn-link mt-3" href="/">← New Search</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

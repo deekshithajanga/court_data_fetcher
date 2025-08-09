@@ -1,0 +1,23 @@
+﻿court_name: "Delhi High Court"
+base_url: "https://delhihighcourt.nic.in/"
+case_status_url: "https://delhihighcourt.nic.in/app/get-case-type-status"
+
+selectors:
+  case_type_select: "#case_type"
+  case_type_input: ""
+  case_number_input: "#case_number"
+  case_year_input: "#case_year"
+  captcha_img: "#captcha-code"
+  captcha_input: "#captchaInput"
+  submit_button: "input[value='Submit']"
+  result_marker: "table"
+
+  results:
+    petitioner: "td:nth-child(2)"
+    respondent: "td:nth-child(2)"
+    filing_date: "td:nth-child(3)"
+    next_hearing_date: "td:nth-child(4)"
+    orders_rows: "table tbody tr"
+    order_date: "td:nth-child(1)"
+    order_title: "td:nth-child(2)"
+    order_pdf_link: "td a[href*='.pdf']"
